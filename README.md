@@ -99,6 +99,6 @@ async_mongo_odm/
 
 2. **Accéder à l'application**
 
-   Ouvrez votre navigateur et accédez à `http://127.0.0.1:8000`. Vous verrez la page de documentation interactive générée automatiquement par FastAPI.
+   Ouvrez votre navigateur et accédez à [`http://127.0.0.1:8000`](http://127.0.0.1:8000). Vous verrez la page de documentation interactive générée automatiquement par FastAPI.
 
-   Vous pouvez également accéder à la documentation interactive via `http://127.0.0.1:8000/docs` ou à la documentation alternative via `http://127.0.0.1:8000/redoc`.
+   Vous pouvez également accéder à la documentation interactive via [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs) ou à la documentation alternative via [`http://127.0.0.1:8000/redoc`](http://127.0.0.1:8000/redoc).
