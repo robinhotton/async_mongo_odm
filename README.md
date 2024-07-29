@@ -82,7 +82,8 @@ async_mongo_odm/
 ├── .env                    # Variables d'environnement
 ├── .gitignore              # Fichiers et dossiers à ignorer par Git
 ├── README.md               # Première de couverture du projet
-└── requirements.txt        # Dépendances du projet
+├── requirements.txt        # Dépendances du projet
+└── run.py                  # Permet de lancer facilement le serveur
 ```
 
 ## Utilisation
@@ -92,7 +93,7 @@ async_mongo_odm/
    Pour lancer l'application, utilisez la commande suivante :
 
    ```bash
-   uvicorn app.main:app --reload
+   python run.py
    ```
 
    Cela démarre le serveur de développement FastAPI avec rechargement automatique.
