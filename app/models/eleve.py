@@ -1,5 +1,4 @@
 from datetime import datetime
-from enum import Enum
 from beanie import Document
 from typing import Optional
 from app.models.sexe_enum import SexeEnum
