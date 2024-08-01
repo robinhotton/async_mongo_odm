@@ -1,5 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, status
-from app.dependencies import check_role, get_current_user
+from fastapi import APIRouter, HTTPException, status
 from typing import List
 from app.schemas.note_schema import NoteSchema, UpdateNoteSchema
 from app.services.note_service import (
@@ -10,31 +9,31 @@ from app.services.note_service import (
     delete_note,
 )
 
-router = APIRouter(prefix="/notes", tags=["Notes"], dependencies=[Depends(check_role(get_current_user))])
+router = APIRouter(prefix="/notes", tags=["Notes"])
 
 @router.get("/", response_model=List[NoteSchema])
 async def read_notes():
     return await get_notes()
 
-@router.get("/{note_id}", response_model=NoteSchema, dependencies=[Depends(check_role(get_current_user))])
+@router.get("/{note_id}", response_model=NoteSchema)
 async def read_note(note_id: str):
     note = await get_note(note_id)
     if not note:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No note with id '{note_id}'")
     return note
 
-@router.post("/", response_model=NoteSchema, dependencies=[Depends(check_role("PROFESSEUR"))])
+@router.post("/", response_model=NoteSchema)
 async def create_note_endpoint(note_data: NoteSchema):
     return await create_note(note_data)
 
-@router.put("/{note_id}", response_model=NoteSchema, dependencies=[Depends(check_role("PROFESSEUR"))])
+@router.put("/{note_id}", response_model=NoteSchema)
 async def update_note_endpoint(note_id: str, note_data: UpdateNoteSchema):
     updated_note = await update_note(note_id, note_data)
     if not updated_note:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No note with id '{note_id}'")
     return updated_note
 
-@router.delete("/{note_id}", response_model=dict, dependencies=[Depends(check_role("PROFESSEUR"))])
+@router.delete("/{note_id}", response_model=dict)
 async def delete_note_endpoint(note_id: str):
     if not await delete_note(note_id):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No note with id '{note_id}'")

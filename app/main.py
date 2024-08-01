@@ -5,7 +5,7 @@ from app.config import settings
 from contextlib import asynccontextmanager
 
 # import routers
-from app.routers import classe_routes, eleve_routes, matiere_routes, note_routes, professeur_routes, trimestre_routes, user_routes
+from app.routers import classe_routes, eleve_routes, matiere_routes, note_routes, professeur_routes, trimestre_routes, user_routes, protected_routes
 
 # import models
 from app.models.classe import Classe
@@ -38,3 +38,4 @@ app.include_router(note_routes.router)
 app.include_router(professeur_routes.router)
 app.include_router(trimestre_routes.router)
 app.include_router(user_routes.router)
+app.include_router(protected_routes.router)
