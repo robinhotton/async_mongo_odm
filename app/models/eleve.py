@@ -1,7 +1,7 @@
 from datetime import datetime
 from beanie import Document
 from typing import Optional
-from app.models.sexe_enum import SexeEnum
+from app.enum.sexe_enum import SexeEnum
 
 class Eleve(Document):
     id: int

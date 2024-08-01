@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
-from app.models.sexe_enum import SexeEnum
+from app.enum.sexe_enum import SexeEnum
 
 class ProfesseurSchema(BaseModel):
     id: int

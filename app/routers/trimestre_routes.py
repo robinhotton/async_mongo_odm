@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, FastAPI
 from typing import List
 from app.schemas.trimestre_schema import TrimestreSchema, UpdateTrimestreSchema
 from app.services.trimestre_service import (
@@ -19,7 +19,7 @@ async def read_trimestres():
 async def read_trimestre(trimestre_id: str):
     trimestre = await get_trimestre(trimestre_id)
     if not trimestre:
-        raise HTTPException(status_code=404, detail=f"No trimester with id '{trimestre_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No trimester with id '{trimestre_id}'")
     return trimestre
 
 @router.post("/", response_model=TrimestreSchema)
@@ -30,11 +30,11 @@ async def create_trimestre_endpoint(trimestre_data: TrimestreSchema):
 async def update_trimestre_endpoint(trimestre_id: str, trimestre_data: UpdateTrimestreSchema):
     updated_trimestre = await update_trimestre(trimestre_id, trimestre_data)
     if not updated_trimestre:
-        raise HTTPException(status_code=404, detail=f"No trimester with id '{trimestre_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No trimester with id '{trimestre_id}'")
     return updated_trimestre
 
 @router.delete("/{trimestre_id}", response_model=dict)
 async def delete_trimestre_endpoint(trimestre_id: str):
     if not await delete_trimestre(trimestre_id):
-        raise HTTPException(status_code=404, detail=f"No trimester with id '{trimestre_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No trimester with id '{trimestre_id}'")
     return {"detail": "Trimester deleted"}

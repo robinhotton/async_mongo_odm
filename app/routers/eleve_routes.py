@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from typing import List
 from app.schemas.eleve_schema import EleveSchema, UpdateEleveSchema
 from app.services.eleve_service import (
@@ -19,7 +19,7 @@ async def read_eleves():
 async def read_eleve(eleve_id: str):
     eleve = await get_eleve(eleve_id)
     if not eleve:
-        raise HTTPException(status_code=404, detail=f"No student with id '{eleve_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No student with id '{eleve_id}'")
     return eleve
 
 @router.post("/", response_model=EleveSchema)
@@ -30,11 +30,11 @@ async def create_eleve_endpoint(eleve_data: EleveSchema):
 async def update_eleve_endpoint(eleve_id: str, eleve_data: UpdateEleveSchema):
     updated_eleve = await update_eleve(eleve_id, eleve_data)
     if not updated_eleve:
-        raise HTTPException(status_code=404, detail=f"No student with id '{eleve_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No student with id '{eleve_id}'")
     return updated_eleve
 
 @router.delete("/{eleve_id}", response_model=dict)
 async def delete_eleve_endpoint(eleve_id: str):
     if not await delete_eleve(eleve_id):
-        raise HTTPException(status_code=404, detail=f"No student with id '{eleve_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No student with id '{eleve_id}'")
     return {"detail": "Student deleted"}

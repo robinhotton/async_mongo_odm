@@ -1,0 +1,42 @@
+# Comparatif LMS open source
+
+- Chamilo
+	- Historique
+		- Belge
+	- Stack technique
+		- PHP
+		- Symfony
+	- Fonctionnalités
+	- Prise en main
+	- Intégrations
+- Open OLAT
+	- Historique
+		- Université de Zurich
+	- Stack technique
+		- Java
+	- Fonctionnalités
+	- Prise en main
+	- Intégrations
+- Aptree
+	- Historique
+		-
+	- Stack technique
+		- Laravel
+	- Fonctionnalités
+	- Prise en main
+	- Intégrations
+- Moodle
+	- Historique
+		- le LMS open source le plus populaire
+	- Stack technique
+		- PHP
+	- Fonctionnalités
+	- Prise en main
+	- Intégrations
+- Comparatif classe virtuelle
+	- Jitsi Meet
+		- stack technique
+	- Wire
+	- Mattermost
+	- BigBlueButton
+-

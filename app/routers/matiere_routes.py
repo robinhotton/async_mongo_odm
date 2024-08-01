@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from typing import List
 from app.schemas.matiere_schema import MatiereSchema, UpdateMatiereSchema
 from app.services.matiere_service import (
@@ -19,7 +19,7 @@ async def read_matieres():
 async def read_matiere(matiere_id: str):
     matiere = await get_matiere(matiere_id)
     if not matiere:
-        raise HTTPException(status_code=404, detail=f"No subject with id '{matiere_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No subject with id '{matiere_id}'")
     return matiere
 
 @router.post("/", response_model=MatiereSchema)
@@ -30,11 +30,11 @@ async def create_matiere_endpoint(matiere_data: MatiereSchema):
 async def update_matiere_endpoint(matiere_id: str, matiere_data: UpdateMatiereSchema):
     updated_matiere = await update_matiere(matiere_id, matiere_data)
     if not updated_matiere:
-        raise HTTPException(status_code=404, detail=f"No subject with id '{matiere_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No subject with id '{matiere_id}'")
     return updated_matiere
 
 @router.delete("/{matiere_id}", response_model=dict)
 async def delete_matiere_endpoint(matiere_id: str):
     if not await delete_matiere(matiere_id):
-        raise HTTPException(status_code=404, detail=f"No subject with id '{matiere_id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No subject with id '{matiere_id}'")
     return {"detail": "Subject deleted"}

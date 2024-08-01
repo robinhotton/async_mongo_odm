@@ -1,3 +1,5 @@
 fastapi
 motor[srv]
 beanie
+passlib[bcrypt]
+pyjwt
