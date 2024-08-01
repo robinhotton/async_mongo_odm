@@ -1,14 +1,33 @@
+from app.enum.role_enum import RoleEnum
 from app.models.user import User
-from app.schemas.user_schema import UserCreateSchema, UserUpdateSchema
+from app.schemas.user_schema import UserCreateSchema, UserUpdateSchema, UserResponseSchema
 from typing import Optional
 from bson import ObjectId
 from app.utils.security import hash_password
 
-async def create_user(user_data: UserCreateSchema) -> User:
-    user_data.password = hash_password(user_data.password)
-    user = User(**user_data.dict())
+async def create_user(user_data: UserCreateSchema) -> UserResponseSchema:
+    # Hash the password
+    hashed_password = hash_password(user_data.password)
+    
+    # Create the user document
+    user = User(
+        username=user_data.username,
+        email=user_data.email,
+        hashed_password=hashed_password,  # Ensure hashed_password is included
+        roles=[RoleEnum(role) for role in user_data.roles]  # Convert roles to RoleEnum
+    )
+
+    # Insert the user into the database
     await user.insert()
-    return user
+
+    # Return the created user
+    # Return the created user
+    return UserResponseSchema(
+        id=str(user.id),
+        username=user.username,
+        email=user.email,
+        roles=user.roles
+    )
 
 async def get_user_by_email(email: str) -> Optional[User]:
     return await User.find_one(User.email == email)

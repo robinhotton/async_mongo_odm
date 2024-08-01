@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Depends, status
+from app.dependencies import check_role, get_current_user
 from typing import List
 from app.schemas.classe_schema import ClasseSchema, UpdateClasseSchema
 from app.services.classe_service import (

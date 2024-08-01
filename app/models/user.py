@@ -10,10 +10,10 @@ class User(Document):
     roles: List[RoleEnum] = [RoleEnum.ELEVE]
 
     class Settings:
-        collection = "users"
+        name = "users"
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "username": "johndoe",
                 "email": "johndoe@example.com",
