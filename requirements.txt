@@ -3,3 +3,6 @@ motor[srv]
 beanie
 passlib[bcrypt]
 pyjwt
+python-dotenv
+pydantic[email]
+python-multipart
