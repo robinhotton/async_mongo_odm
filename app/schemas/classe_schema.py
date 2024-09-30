@@ -4,22 +4,23 @@ from typing import Optional
 
 class ClasseBaseSchema(BaseModel):
     nom: Optional[str] = None
-    prof: str = Field(default=None, alias="prof_id")
+    prof_id: Optional[str] = None
 
     class Config:
         from_attributes = True
-        arbitrary_types_allowed = True  # Autorise les types arbitraires comme ObjectId
-        populate_by_name = True  # Autorise l'utilisation des alias
+        populate_by_name = True
+        
 
 class CreateClasseSchema(ClasseBaseSchema):
     pass
 
+
 class UpdateClasseSchema(ClasseBaseSchema):
-    nom: Optional[str] = None
     prof: Optional[str] = Field(None, alias="prof_id")
 
+
 class ClasseSchema(ClasseBaseSchema):
-    id: str
+    _id: str
 
     class Config:
         json_schema_extra = {

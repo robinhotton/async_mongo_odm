@@ -1,29 +1,30 @@
 from bson import ObjectId
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-from app.enum.sexe_enum import SexeEnum
+from ..enum import SexeEnum
+
 
 class EleveBaseSchema(BaseModel):
     nom: str
     prenom: Optional[str] = None
-    classe: Optional[str] = Field(None, alias="classe_id")
+    classe_id: Optional[str] = None
     date_naissance: datetime
     adresse: Optional[str] = None
     sexe: SexeEnum
 
     class Config:
         from_attributes = True
-        arbitrary_types_allowed = True
-        populate_by_name = True
+
 
 class CreateEleveSchema(EleveBaseSchema):
     pass
 
+
 class UpdateEleveSchema(EleveBaseSchema):
     nom: Optional[str] = None
     prenom: Optional[str] = None
-    classe: Optional[str] = Field(None, alias="classe_id")
+    classe_id: Optional[str] = None
     date_naissance: Optional[datetime] = None
     adresse: Optional[str] = None
     sexe: Optional[SexeEnum] = None

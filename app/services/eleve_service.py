@@ -1,28 +1,38 @@
-from app.models.eleve import Eleve
-from app.schemas.eleve_schema import EleveSchema, UpdateEleveSchema
+from ..models import Eleve
+from ..schemas import EleveSchema, UpdateEleveSchema
 from typing import List, Optional
+from bson import ObjectId
 
-async def get_eleve(eleve_id: int) -> Optional[Eleve]:
-    return await Eleve.get(eleve_id)
 
-async def get_eleves() -> List[Eleve]:
-    return await Eleve.find_all().to_list()
+async def get_eleve(eleve_id: str) -> Optional[EleveSchema]:
+    if not ObjectId.is_valid(eleve_id):
+        return None
+    eleve = await Eleve.get(ObjectId(eleve_id))
+    return EleveSchema.model_validate(eleve) if eleve else None
 
-async def create_eleve(eleve_data: EleveSchema) -> Eleve:
-    eleve = Eleve(**eleve_data.dict())
+
+async def get_eleves() -> List[EleveSchema]:
+    eleves: List[Eleve] = await Eleve.find_all().to_list()
+    return [EleveSchema.model_validate(eleve) for eleve in eleves]
+
+
+async def create_eleve(eleve_data: EleveSchema) -> EleveSchema:
+    eleve = Eleve(**eleve_data.model_dump())
     await eleve.insert()
-    return eleve
+    return EleveSchema.model_validate(eleve)
 
-async def update_eleve(eleve_id: int, eleve_data: UpdateEleveSchema) -> Optional[Eleve]:
-    eleve = await Eleve.get(eleve_id)
+
+async def update_eleve(eleve_id: str, eleve_data: UpdateEleveSchema) -> Optional[EleveSchema]:
+    eleve = await get_eleve(eleve_id)
     if eleve:
-        update_data = eleve_data.dict(exclude_unset=True)
+        update_data = eleve_data.model_dump(exclude_unset=True)
         await eleve.set(update_data)
-        return eleve
+        return EleveSchema.model_validate(eleve)
     return None
 
-async def delete_eleve(eleve_id: int) -> bool:
-    eleve = await Eleve.get(eleve_id)
+
+async def delete_eleve(eleve_id: str) -> bool:
+    eleve = await get_eleve(eleve_id)
     if eleve:
         await eleve.delete()
         return True

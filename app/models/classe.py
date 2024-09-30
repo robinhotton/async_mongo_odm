@@ -1,17 +1,18 @@
 from beanie import Document
-from typing import Optional
 from bson import ObjectId
-from pydantic import Field
+from typing import Optional
 
 
 class Classe(Document):
     nom: str
-    prof: Optional[str] = Field(None, alias="prof_id")
+    prof_id: Optional[str] = None
 
     class Settings:
         collection = "classes"
 
     class Config:
+        allow_population_by_field_name = True
+        from_attributes = True
         json_schema_extra = {
             "example": {
                 "nom": "CP",
