@@ -3,6 +3,7 @@ from beanie import Document
 from typing import Optional
 from app.enum.sexe_enum import SexeEnum
 
+
 class Professeur(Document):
     nom: str
     prenom: Optional[str] = None
@@ -14,7 +15,7 @@ class Professeur(Document):
         collection = "professeurs"
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "nom": "GERMAIN",
                 "prenom": "Christophe",

@@ -9,7 +9,7 @@ from .protected_routes  import router as protected_router
 from .trimestre_routes  import router as trimestre_router
 from .user_routes       import router as user_router
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1")
 router.include_router(classe_router)
 router.include_router(eleve_router)
 router.include_router(matiere_router)

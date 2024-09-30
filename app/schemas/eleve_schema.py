@@ -1,34 +1,45 @@
+from bson import ObjectId
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
-from app.models.eleve import SexeEnum
+from app.enum.sexe_enum import SexeEnum
 
-class EleveSchema(BaseModel):
-    id: int
+class EleveBaseSchema(BaseModel):
     nom: str
     prenom: Optional[str] = None
-    classe: int
+    classe: Optional[str] = Field(None, alias="classe_id")
     date_naissance: datetime
     adresse: Optional[str] = None
     sexe: SexeEnum
 
     class Config:
+        from_attributes = True
+        arbitrary_types_allowed = True
+        populate_by_name = True
+
+class CreateEleveSchema(EleveBaseSchema):
+    pass
+
+class UpdateEleveSchema(EleveBaseSchema):
+    nom: Optional[str] = None
+    prenom: Optional[str] = None
+    classe: Optional[str] = Field(None, alias="classe_id")
+    date_naissance: Optional[datetime] = None
+    adresse: Optional[str] = None
+    sexe: Optional[SexeEnum] = None
+
+class EleveSchema(EleveBaseSchema):
+    id: str
+
+    class Config:
         json_schema_extra = {
             "example": {
-                "id": 1,
+                "id": str(ObjectId()),
                 "nom": "Durand",
                 "prenom": "Marie",
-                "classe": 1,
+                "classe_id": str(ObjectId()),
                 "date_naissance": "2015-01-01T23:00:00",
                 "adresse": "15 rue du Lac 75001 Paris",
                 "sexe": "FEMME"
             }
         }
-
-class UpdateEleveSchema(BaseModel):
-    nom: Optional[str] = None
-    prenom: Optional[str] = None
-    classe: Optional[int] = None
-    date_naissance: Optional[datetime] = None
-    adresse: Optional[str] = None
-    sexe: Optional[SexeEnum] = None

@@ -1,10 +1,11 @@
+from bson import ObjectId
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 from app.enum.role_enum import RoleEnum
 
 class UserCreateSchema(BaseModel):
     username: str
-    password: str  # plain text password
+    password: str
     email: EmailStr
     roles: List[RoleEnum] = [RoleEnum.ELEVE]
 
@@ -17,17 +18,17 @@ class UserCreateSchema(BaseModel):
                 "roles": ["ELEVE"]
             }
         }
-        
+
 class UserResponseSchema(BaseModel):
     id: str
     username: str
-    email: str
+    email: EmailStr
     roles: List[RoleEnum]
 
     class Config:
         json_schema_extra = {
             "example": {
-                "id": "605c72ef3f1b2b001f2e8b7c",
+                "id": str(ObjectId()),
                 "username": "johndoe",
                 "email": "johndoe@example.com",
                 "roles": ["ADMIN"]

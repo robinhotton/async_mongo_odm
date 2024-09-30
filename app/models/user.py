@@ -3,6 +3,7 @@ from pydantic import EmailStr
 from typing import List
 from app.enum.role_enum import RoleEnum
 
+
 class User(Document):
     username: str
     email: EmailStr

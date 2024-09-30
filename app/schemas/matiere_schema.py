@@ -1,17 +1,26 @@
-from pydantic import BaseModel, Field
+from bson import ObjectId
+from pydantic import BaseModel
 from typing import Optional
 
-class MatiereSchema(BaseModel):
-    idmatiere: int
+class MatiereBaseSchema(BaseModel):
     nom: str
+
+    class Config:
+        from_attributes = True
+
+class CreateMatiereSchema(MatiereBaseSchema):
+    pass
+
+class UpdateMatiereSchema(BaseModel):
+    nom: Optional[str] = None
+
+class MatiereSchema(MatiereBaseSchema):
+    id_matiere: str
 
     class Config:
         json_schema_extra = {
             "example": {
-                "idmatiere": 1,
+                "id_matiere": str(ObjectId()),
                 "nom": "LECTURE-CP"
             }
         }
-
-class UpdateMatiereSchema(BaseModel):
-    nom: Optional[str] = None

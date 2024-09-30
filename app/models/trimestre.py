@@ -9,7 +9,7 @@ class Trimestre(Document):
         collection = "trimestres"
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "nom": "TRIM01",
                 "date": "2023-12-01T09:08:03"
