@@ -4,11 +4,10 @@ from typing import Optional
 from app.enum.sexe_enum import SexeEnum
 
 class Professeur(Document):
-    id: int
     nom: str
-    prenom: Optional[str]
+    prenom: Optional[str] = None
     date_naissance: datetime
-    adresse: Optional[str]
+    adresse: Optional[str] = None
     sexe: SexeEnum
 
     class Settings:
@@ -17,7 +16,6 @@ class Professeur(Document):
     class Config:
         schema_extra = {
             "example": {
-                "id": 1,
                 "nom": "GERMAIN",
                 "prenom": "Christophe",
                 "date_naissance": "1971-01-01T23:00:00",

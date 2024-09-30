@@ -2,5 +2,5 @@ from enum import Enum
 
 class RoleEnum(str, Enum):
     ADMIN = "ADMIN"
-    PROFSSEUR = "PROFESSEUR"
+    PROFESSEUR = "PROFESSEUR"  # Correction du nom ici pour "PROFESSEUR"
     ELEVE = "ELEVE"
