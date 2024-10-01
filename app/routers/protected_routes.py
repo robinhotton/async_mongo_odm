@@ -1,9 +1,9 @@
 # app/routers/protected_routes.py
 
 from fastapi import APIRouter, Depends
-from app.services.auth_service import check_role, get_current_user
-from app.models.user import User
-from app.enum.role_enum import RoleEnum
+from ..services.auth_service import check_role, get_current_user
+from ..models import User
+from ..enums import RoleEnum
 
 router = APIRouter(prefix="/protected", tags=["Protected"])
 

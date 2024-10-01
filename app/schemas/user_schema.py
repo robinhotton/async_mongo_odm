@@ -1,7 +1,7 @@
 from bson import ObjectId
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
-from app.enum.role_enum import RoleEnum
+from ..enums import RoleEnum
 
 class UserCreateSchema(BaseModel):
     username: str

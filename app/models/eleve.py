@@ -1,7 +1,7 @@
 from datetime import datetime
 from beanie import Document
 from typing import Optional
-from app.enum.sexe_enum import SexeEnum
+from ..enums import SexeEnum
 from pydantic import Field
 from bson import ObjectId
 

@@ -2,7 +2,7 @@ from bson import ObjectId
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
-from app.enum.sexe_enum import SexeEnum
+from ..enums import SexeEnum
 
 class ProfesseurBaseSchema(BaseModel):
     nom: str

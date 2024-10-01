@@ -1,7 +1,7 @@
 from beanie import Document
 from pydantic import EmailStr
 from typing import List
-from app.enum.role_enum import RoleEnum
+from ..enums import RoleEnum
 
 
 class User(Document):
