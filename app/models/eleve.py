@@ -25,6 +25,6 @@ class Eleve(Document):
                 "classe_id": str(ObjectId()),
                 "date_naissance": "2015-01-01T23:00:00",
                 "adresse": "15 rue du Lac 75001 Paris",
-                "sexe": "FEMME"
+                "sexe": SexeEnum.FEMME
             }
         }

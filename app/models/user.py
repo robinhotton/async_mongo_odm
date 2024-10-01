@@ -19,6 +19,6 @@ class User(Document):
                 "username": "johndoe",
                 "email": "johndoe@example.com",
                 "hashed_password": "hashedpassword",
-                "roles": ["ELEVE"]
+                "roles": [RoleEnum.ELEVE]
             }
         }

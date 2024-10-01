@@ -21,6 +21,6 @@ class Professeur(Document):
                 "prenom": "Christophe",
                 "date_naissance": "1971-01-01T23:00:00",
                 "adresse": "15 rue du printemps 59000 LILLE",
-                "sexe": "HOMME"
+                "sexe": SexeEnum.HOMME
             }
         }
