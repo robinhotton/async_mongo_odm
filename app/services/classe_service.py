@@ -29,7 +29,10 @@ async def create_classe(classe_data: ClasseCreate) -> ClasseResponse:
 
 
 async def update_classe(classe_id: str, classe_data: ClasseUpdate) -> Optional[Classe]:
-    classe: Classe = await get_classe(classe_id)
+    if not await validate_object_id(classe_id):
+        return None
+    
+    classe: Classe = await Classe.get(ObjectId(classe_id))
     if classe:
         update_data = classe_data.model_dump(exclude_unset=True)
         await classe.set(update_data)
@@ -39,7 +42,10 @@ async def update_classe(classe_id: str, classe_data: ClasseUpdate) -> Optional[C
 
 
 async def delete_classe(classe_id: str) -> bool:
-    classe: Classe = await get_classe(classe_id)
+    if not await validate_object_id(classe_id):
+        return None
+    
+    classe: Classe = await Classe.get(ObjectId(classe_id))
     if classe:
         await classe.delete()
         return True
