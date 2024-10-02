@@ -2,7 +2,7 @@ from passlib.context import CryptContext
 import jwt
 from datetime import datetime, timedelta
 from typing import Optional
-from .config import Settings
+from .settings import Settings
 
 
 # Initialisation du context de passlib pour le hashage

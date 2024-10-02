@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from typing import List
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
-from ..utils import ACCESS_TOKEN_EXPIRE_MINUTES, verify_password, create_access_token
+from ..utils import verify_password, create_access_token, Settings
 from ..models import User
 from ..schemas import UserCreateSchema, UserUpdateSchema, TokenResponseSchema, UserResponseSchema
 from ..services import authenticate_user, get_password_hash, create_user, get_user_by_email, get_user, update_user, delete_user
@@ -22,7 +22,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=Settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data=user.model_dump(), expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from contextlib import asynccontextmanager
-from .config import Settings
+from .settings import Settings
 from ..models import all_models
 
 
