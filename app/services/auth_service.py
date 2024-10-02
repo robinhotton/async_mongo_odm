@@ -5,7 +5,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 import jwt  # PyJWT
 from ..models import User
-from ..utils import settings
+from ..utils import Settings
 
 # Create a password context for hashing and verifying passwords
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -40,7 +40,7 @@ async def authenticate_user(username: str, password: str) -> Optional[User]:
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
     try:
         # Decode the JWT token using SECRET_KEY and ALGORITHM
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(token, Settings.SECRET_KEY, algorithms=[Settings.ALGORITHM])
 
         # Extract the username from the token's payload
         username: str = payload.get("sub")
@@ -77,6 +77,6 @@ def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes
     expire = datetime.utcnow() + expires_delta
     to_encode.update({"exp": expire})
 
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, Settings.SECRET_KEY, algorithm=Settings.ALGORITHM)
 
     return encoded_jwt

@@ -29,7 +29,10 @@ class Settings:
     DATABASE_NAME: str = os.getenv("DATABASE_NAME", "myDatabase")
     SECRET_KEY: str = os.getenv("SECRET_KEY", "default_secret_key")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
-
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
+    
+    @property
+    def mongodb_uri(self):
+        return self.MONGODB_URI
 
 load_dotenv()
-settings = Settings()
