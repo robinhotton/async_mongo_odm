@@ -1,21 +1,16 @@
-from datetime import datetime
 from beanie import Document, Link
 from typing import Optional
+from datetime import datetime
 from bson import ObjectId
-from .eleve import Eleve
-from .classe import Classe
-from .matiere import Matiere
-from .professeur import Professeur
-from .trimestre import Trimestre
 
 
 class Notes(Document):
     date_saisie: datetime
-    eleve: Optional[Link[Eleve]] = None  # Lien direct vers l'élève
-    classe: Optional[Link[Classe]] = None  # Lien direct vers la classe
-    matiere: Optional[Link[Matiere]] = None  # Lien direct vers la matière
-    prof: Optional[Link[Professeur]] = None  # Lien direct vers le professeur
-    trimestre: Optional[Link[Trimestre]] = None  # Lien direct vers le trimestre
+    eleve: Optional[Link["Eleve"]] = None
+    classe: Optional[Link["Classe"]] = None
+    matiere: Optional[Link["Matiere"]] = None
+    prof: Optional[Link["Professeur"]] = None
+    trimestre: Optional[Link["Trimestre"]] = None
     note: int
     avis: str
     avancement: float
@@ -27,11 +22,11 @@ class Notes(Document):
         json_schema_extra = {
             "example": {
                 "date_saisie": "2019-10-15T08:07:03",
-                "eleve": str(ObjectId()),  # Référence à l'élève
-                "classe": str(ObjectId()),  # Référence à la classe
-                "matiere": str(ObjectId()),  # Référence à la matière
-                "prof": str(ObjectId()),  # Référence au professeur
-                "trimestre": str(ObjectId()),  # Référence au trimestre
+                "eleve": str(ObjectId()),
+                "classe": str(ObjectId()),
+                "matiere": str(ObjectId()),
+                "prof": str(ObjectId()),
+                "trimestre": str(ObjectId()),
                 "note": 12,
                 "avis": "Travail à approfondir",
                 "avancement": 0.5

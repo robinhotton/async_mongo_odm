@@ -1,8 +1,8 @@
-from datetime import datetime
-from beanie import Document, Link
+from beanie import Document, Link, BackLink
 from typing import Optional, List
+from datetime import datetime
+from pydantic import Field
 from ..enums import SexeEnum
-from .matiere import Matiere
 
 
 class Professeur(Document):
@@ -11,7 +11,8 @@ class Professeur(Document):
     date_naissance: datetime
     adresse: Optional[str] = None
     sexe: SexeEnum
-    matieres: Optional[List[Link[Matiere]]] = None  # Liste des matières enseignées
+    matieres: Optional[List[Link["Matiere"]]] = None
+    classes: List[BackLink["Classe"]] = Field(original_field="prof")
 
     class Settings:
         collection = "professeurs"

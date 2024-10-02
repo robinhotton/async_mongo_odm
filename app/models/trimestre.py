@@ -1,10 +1,13 @@
+from beanie import Document, BackLink
+from typing import List
 from datetime import datetime
-from beanie import Document
+from pydantic import Field
 
 
 class Trimestre(Document):
     nom: str
     date: datetime
+    notes: List[BackLink["Notes"]] = Field(original_field="trimestre")
 
     class Settings:
         collection = "trimestres"
