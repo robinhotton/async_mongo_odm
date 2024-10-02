@@ -1,5 +1,5 @@
 from beanie import Document, Link, BackLink
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 from datetime import datetime
 from bson import ObjectId
 from pydantic import Field

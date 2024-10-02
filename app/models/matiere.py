@@ -1,11 +1,6 @@
 from beanie import Document, BackLink
-from typing import TYPE_CHECKING, List
+from typing import List
 from pydantic import Field
-
-
-# Pour éviter les problèmes d'importation circulaire
-if TYPE_CHECKING:
-    from .note import Notes
     
 
 class Matiere(Document):

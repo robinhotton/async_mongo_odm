@@ -1,9 +1,10 @@
 from bson import ObjectId
 from pydantic import BaseModel, Field
 from typing import Optional
+from .py_object_id import PyObjectId
 
 
-class ClasseBaseSchema(BaseModel):
+class ClasseBase(BaseModel):
     nom: str = None
     prof: Optional[str] = None
 
@@ -17,18 +18,19 @@ class ClasseBaseSchema(BaseModel):
         }
         
 
-class CreateClasseSchema(ClasseBaseSchema):
+class ClasseCreate(ClasseBase):
     pass
 
 
-class UpdateClasseSchema(ClasseBaseSchema):
+class ClasseUpdate(ClasseBase):
     nom: Optional[str] = None
 
 
-class ClasseSchema(ClasseBaseSchema):
-    _id: str
+class ClasseResponse(ClasseBase):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
 
     class Config:
+        arbitrary_types_allowed=True,
         json_schema_extra = {
             "example": {
                 "_id": str(ObjectId()),

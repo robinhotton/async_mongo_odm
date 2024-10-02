@@ -1,5 +1,5 @@
 from beanie import Document, BackLink
-from typing import TYPE_CHECKING, List
+from typing import List
 from datetime import datetime
 from pydantic import Field
 

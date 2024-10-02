@@ -1,5 +1,5 @@
 from beanie import Document, BackLink
-from typing import TYPE_CHECKING, Optional, List
+from typing import Optional, List
 from datetime import datetime
 from pydantic import Field
 from ..enums import SexeEnum

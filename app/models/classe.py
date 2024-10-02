@@ -1,5 +1,5 @@
 from beanie import Document, Link, BackLink
-from typing import TYPE_CHECKING, Optional, List
+from typing import Optional, List
 from bson import ObjectId
 from pydantic import Field
 
