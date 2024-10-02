@@ -19,30 +19,12 @@ Ce projet est une application web construite avec **FastAPI** pour le backend et
    cd async_mongo_odm
    ```
 
-2. **Créer un environnement virtuel**
+2. **lancer le programme**
 
    ```bash
-   python -m venv .venv
-   ```
-
-3. **Activer l'environnement virtuel**
-
-   - **Windows**
-
-     ```bash
-     .venv\Scripts\activate
-     ```
-
-   - **macOS/Linux**
-
-     ```bash
-     source .venv/bin/activate
-     ```
-
-4. **Installer les dépendances**
-
-   ```bash
-   pip install -r requirements.txt
+   # Créé et configure automatiquement un environnement virtuel
+   # avant de lancer le programme
+   python run.py
    ```
 
 ## Configuration
