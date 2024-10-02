@@ -1,6 +1,7 @@
 from datetime import datetime
 from beanie import Document
 
+
 class Trimestre(Document):
     nom: str
     date: datetime

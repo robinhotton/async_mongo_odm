@@ -1,11 +1,12 @@
-from beanie import Document
+from beanie import Document, Link
 from bson import ObjectId
 from typing import Optional
+from .professeur import Professeur
 
 
 class Classe(Document):
     nom: str
-    prof_id: Optional[str] = None
+    prof: Optional[Link[Professeur]] = None  # Lien direct vers le professeur responsable
 
     class Settings:
         collection = "classes"
@@ -15,6 +16,6 @@ class Classe(Document):
         json_schema_extra = {
             "example": {
                 "nom": "CP",
-                "prof_id": str(ObjectId())
+                "prof": str(ObjectId())  # Référence au professeur responsable
             }
         }

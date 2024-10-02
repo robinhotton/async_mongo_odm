@@ -1,7 +1,8 @@
 from datetime import datetime
-from beanie import Document
-from typing import Optional
+from beanie import Document, Link
+from typing import Optional, List
 from ..enums import SexeEnum
+from .matiere import Matiere
 
 
 class Professeur(Document):
@@ -10,6 +11,7 @@ class Professeur(Document):
     date_naissance: datetime
     adresse: Optional[str] = None
     sexe: SexeEnum
+    matieres: Optional[List[Link[Matiere]]] = None  # Liste des matières enseignées
 
     class Settings:
         collection = "professeurs"
