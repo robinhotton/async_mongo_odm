@@ -1,14 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends, status
-from app.dependencies import check_role, get_current_user
+from ..utils import check_role, get_current_user
 from typing import List
-from app.schemas.professeur_schema import ProfesseurSchema, UpdateProfesseurSchema
-from app.services.professeur_service import (
-    get_professeur,
-    get_professeurs,
-    create_professeur,
-    update_professeur,
-    delete_professeur,
-)
+from ..schemas import ProfesseurSchema, UpdateProfesseurSchema
+from ..services import get_professeur, get_professeurs, create_professeur, update_professeur, delete_professeur
 
 router = APIRouter(prefix="/professeurs", tags=["Professeurs"])
 

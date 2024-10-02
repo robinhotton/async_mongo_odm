@@ -1,14 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends, status
-from app.dependencies import check_role, get_current_user
+from ..utils import check_role, get_current_user
 from typing import List
-from app.schemas.trimestre_schema import TrimestreSchema, UpdateTrimestreSchema
-from app.services.trimestre_service import (
-    get_trimestre,
-    get_trimestres,
-    create_trimestre,
-    update_trimestre,
-    delete_trimestre,
-)
+from ..schemas import TrimestreSchema, UpdateTrimestreSchema
+from ..services import get_trimestre, get_trimestres, create_trimestre, update_trimestre, delete_trimestre
 
 router = APIRouter(prefix="/trimestres", tags=["Trimestres"])
 

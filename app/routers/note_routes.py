@@ -1,13 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from typing import List
-from app.schemas.note_schema import NoteSchema, UpdateNoteSchema
-from app.services.note_service import (
-    get_notes,
-    get_note,
-    create_note,
-    update_note,
-    delete_note,
-)
+from ..schemas import NoteSchema, UpdateNoteSchema
+from ..services import get_notes, get_note, create_note, update_note, delete_note
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 

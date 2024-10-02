@@ -4,8 +4,8 @@ from passlib.context import CryptContext
 from typing import Optional
 from datetime import datetime, timedelta
 import jwt  # PyJWT
-from app.models.user import User
-from app.config import settings
+from ..models import User
+from ..utils import settings
 
 # Create a password context for hashing and verifying passwords
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

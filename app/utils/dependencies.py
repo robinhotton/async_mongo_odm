@@ -1,8 +1,8 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from .utils import decode_access_token
-from .services import get_user_by_email
-from .schemas import UserCreateSchema
+from .security import decode_access_token
+from ..services import get_user_by_email
+from ..schemas import UserCreateSchema
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 

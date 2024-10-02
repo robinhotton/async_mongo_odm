@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from typing import List
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
-from ..utils.security import ACCESS_TOKEN_EXPIRE_MINUTES, verify_password, create_access_token
-from ..models.user import User
+from ..utils import ACCESS_TOKEN_EXPIRE_MINUTES, verify_password, create_access_token
+from ..models import User
 from ..schemas import UserCreateSchema, UserUpdateSchema, TokenResponseSchema, UserResponseSchema
 from ..services import authenticate_user, get_password_hash, create_user, get_user_by_email, get_user, update_user, delete_user
 

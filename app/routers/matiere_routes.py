@@ -1,14 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends, status
-from app.dependencies import check_role, get_current_user
+from ..utils import check_role, get_current_user
 from typing import List
-from app.schemas.matiere_schema import MatiereSchema, UpdateMatiereSchema
-from app.services.matiere_service import (
-    get_matiere,
-    get_matieres,
-    create_matiere,
-    update_matiere,
-    delete_matiere,
-)
+from ..schemas import MatiereSchema, UpdateMatiereSchema
+from ..services import get_matiere, get_matieres, create_matiere, update_matiere, delete_matiere
 
 router = APIRouter(prefix="/matieres", tags=["Matieres"])
 
