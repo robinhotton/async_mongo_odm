@@ -2,21 +2,14 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from typing import List
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
-from app.utils.security import ACCESS_TOKEN_EXPIRE_MINUTES, verify_password, create_access_token
-from app.models.user import User
-from app.schemas.user_schema import UserCreateSchema, UserUpdateSchema, UserSchema, TokenResponseSchema
-from app.services.auth_service import authenticate_user, get_password_hash
-from app.services.user_service import (
-    create_user,
-    get_user_by_email,
-    get_user,
-    update_user,
-    delete_user
-)
+from ..utils.security import ACCESS_TOKEN_EXPIRE_MINUTES, verify_password, create_access_token
+from ..models.user import User
+from ..schemas import UserCreateSchema, UserUpdateSchema, TokenResponseSchema, UserResponseSchema
+from ..services import authenticate_user, get_password_hash, create_user, get_user_by_email, get_user, update_user, delete_user
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
-@router.post("/signup", response_model=UserSchema)
+@router.post("/signup", response_model=UserResponseSchema)
 async def signup(user_data: UserCreateSchema):
     existing_user = await get_user_by_email(user_data.email)
     if existing_user:
@@ -24,28 +17,28 @@ async def signup(user_data: UserCreateSchema):
     user = await create_user(user_data)
     return user
 
-@router.post("/login", response_model=TokenResponseSchema)
+@router.post("/login", response_model=UserResponseSchema)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(data=user.dict(), expires_delta=access_token_expires)
+    access_token = create_access_token(data=user.model_dump(), expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.get("/", response_model=List[UserSchema])
+@router.get("/", response_model=List[UserResponseSchema])
 async def read_users():
     users = await User.find_all().to_list()
     return users
 
-@router.get("/{user_id}", response_model=UserSchema)
+@router.get("/{user_id}", response_model=UserResponseSchema)
 async def read_user(user_id: str):
     user = await get_user(user_id)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user
 
-@router.put("/{user_id}", response_model=UserSchema)
+@router.put("/{user_id}", response_model=UserResponseSchema)
 async def update_user_endpoint(user_id: str, user_data: UserUpdateSchema):
     updated_user = await update_user(user_id, user_data)
     if not updated_user:

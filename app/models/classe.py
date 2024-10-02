@@ -11,7 +11,6 @@ class Classe(Document):
         collection = "classes"
 
     class Config:
-        allow_population_by_field_name = True
         from_attributes = True
         json_schema_extra = {
             "example": {

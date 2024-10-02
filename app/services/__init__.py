@@ -5,3 +5,4 @@ from .note_service import *
 from .professeur_service import *
 from .trimestre_service import *
 from .user_service import *
+from .auth_service import *

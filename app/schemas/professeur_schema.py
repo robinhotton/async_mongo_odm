@@ -13,8 +13,6 @@ class ProfesseurBaseSchema(BaseModel):
 
     class Config:
         from_attributes = True
-        arbitrary_types_allowed = True
-        populate_by_name = True
 
 class CreateProfesseurSchema(ProfesseurBaseSchema):
     pass
@@ -37,6 +35,6 @@ class ProfesseurSchema(ProfesseurBaseSchema):
                 "prenom": "Christophe",
                 "date_naissance": "1971-01-01T23:00:00",
                 "adresse": "15 rue du printemps 59000 LILLE",
-                "sexe": "HOMME"
+                "sexe": SexeEnum.HOMME
             }
         }

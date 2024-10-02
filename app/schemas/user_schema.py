@@ -3,50 +3,58 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 from ..enums import RoleEnum
 
-class UserCreateSchema(BaseModel):
+
+class UserBaseSchema(BaseModel):
     username: str
-    password: str
     email: EmailStr
     roles: List[RoleEnum] = [RoleEnum.ELEVE]
 
+    class Config:
+        from_attributes = True
+        json_schema_extra = {
+            "example": {
+                "username": "johndoe",
+                "email": "johndoe@example.com",
+                "roles": [RoleEnum.ELEVE]
+            }
+        }
+
+
+class UserCreateSchema(UserBaseSchema):
+    password: str
+    
     class Config:
         json_schema_extra = {
             "example": {
                 "username": "johndoe",
                 "email": "johndoe@example.com",
                 "password": "password",
-                "roles": ["ELEVE"]
+                "roles": [RoleEnum.ELEVE]
             }
         }
 
-class UserResponseSchema(BaseModel):
-    id: str
-    username: str
-    email: EmailStr
-    roles: List[RoleEnum]
 
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "id": str(ObjectId()),
-                "username": "johndoe",
-                "email": "johndoe@example.com",
-                "roles": ["ADMIN"]
-            }
-        }
-
-class TokenResponseSchema(BaseModel):
-    access_token: str
-    token_type: str
-
-class UserUpdateSchema(BaseModel):
+class UserUpdateSchema(UserBaseSchema):
     username: Optional[str] = None
     password: Optional[str] = None
     email: Optional[EmailStr] = None
     roles: Optional[List[RoleEnum]] = None
 
-class UserSchema(BaseModel):
-    id: str
-    username: str
-    email: EmailStr
-    roles: List[RoleEnum]
+    
+class UserResponseSchema(UserBaseSchema):
+    _id: str
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "_id": str(ObjectId()),
+                "username": "johndoe",
+                "email": "johndoe@example.com",
+                "roles": [RoleEnum.ADMIN]
+            }
+        }
+    
+    
+class TokenResponseSchema(BaseModel):
+    access_token: str
+    token_type: str

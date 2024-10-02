@@ -33,12 +33,12 @@ class UpdateNoteSchema(BaseModel):
     avancement: Optional[float] = None
 
 class NoteSchema(NoteBaseSchema):
-    id_notes: str
+    _id: str
 
     class Config:
         json_schema_extra = {
             "example": {
-                "id_notes": str(ObjectId()),
+                "_id": str(ObjectId()),
                 "date_saisie": "2019-10-15T08:07:03",
                 "id_eleve": str(ObjectId()),
                 "id_classe": str(ObjectId()),

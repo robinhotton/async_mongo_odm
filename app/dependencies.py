@@ -1,12 +1,12 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from app.utils.security import decode_access_token
-from app.services.user_service import get_user_by_email
-from app.schemas.user_schema import UserSchema
+from .utils import decode_access_token
+from .services import get_user_by_email
+from .schemas import UserCreateSchema
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserSchema:
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserCreateSchema:
     payload = decode_access_token(token)
     if payload is None:
         raise HTTPException(
@@ -24,7 +24,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserSchema:
     return user
 
 def check_role(required_role: str):
-    async def role_checker(current_user: UserSchema = Depends(get_current_user)):
+    async def role_checker(current_user: UserCreateSchema = Depends(get_current_user)):
         if required_role not in current_user.roles:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions")
         return current_user

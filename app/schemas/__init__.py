@@ -4,4 +4,4 @@ from .matiere_schema import MatiereSchema, UpdateMatiereSchema
 from .note_schema import NoteSchema, UpdateNoteSchema
 from .professeur_schema import ProfesseurSchema, UpdateProfesseurSchema
 from .trimestre_schema import TrimestreSchema, UpdateTrimestreSchema
-from .user_schema import UserSchema, UserUpdateSchema, UserCreateSchema, UserResponseSchema, TokenResponseSchema
+from .user_schema import UserUpdateSchema, UserCreateSchema, UserResponseSchema, TokenResponseSchema

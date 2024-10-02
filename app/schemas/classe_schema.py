@@ -2,13 +2,19 @@ from bson import ObjectId
 from pydantic import BaseModel, Field
 from typing import Optional
 
+
 class ClasseBaseSchema(BaseModel):
-    nom: Optional[str] = None
-    prof_id: Optional[str] = None
+    nom: str = None
+    prof_id: Optional[str] = Field(None, alias="prof_id")
 
     class Config:
         from_attributes = True
-        populate_by_name = True
+        json_schema_extra = {
+            "example": {
+                "nom": "CP",
+                "prof_id": str(ObjectId())
+            }
+        }
         
 
 class CreateClasseSchema(ClasseBaseSchema):
@@ -16,7 +22,7 @@ class CreateClasseSchema(ClasseBaseSchema):
 
 
 class UpdateClasseSchema(ClasseBaseSchema):
-    prof: Optional[str] = Field(None, alias="prof_id")
+    nom: Optional[str] = None
 
 
 class ClasseSchema(ClasseBaseSchema):
@@ -25,8 +31,8 @@ class ClasseSchema(ClasseBaseSchema):
     class Config:
         json_schema_extra = {
             "example": {
-                "id": str(ObjectId()),  # Exemple d'ID de classe
+                "_id": str(ObjectId()),
                 "nom": "CP",
-                "prof_id": str(ObjectId())  # Exemple d'ID de professeur
+                "prof_id": str(ObjectId())
             }
         }
