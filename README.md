@@ -10,7 +10,29 @@ Ce projet est une application web construite avec **FastAPI** pour le backend et
 - MongoDB (local ou distant)
 - `pip` pour l'installation des dépendances
 
-## Installation
+## Structure du Projet
+
+```bash
+async_mongo_odm/
+│
+├── app/                    # Code source de l'application
+│   ├── main.py             # Point d'entrée de l'application & configure FastAPI
+│   ├── config.py           # Configuration de l'application, dont la connexion à MongoDB
+│   ├── models/             # Modèles Beanie pour MongoDB (ODM)
+│   ├── routers/            # Endpoints de l'application
+│   ├── schemas/            # Schémas de validation des données avec Pydantic
+│   └── services/           # Logique métier reliant modèles et routeurs
+│
+├── .env                    # Variables d'environnement pour la configuration
+├── .env.example            # Template d'exemple pour les variables d'environnement
+├── .venv/                  # Environnement virtuel Python
+├── .gitignore              # Fichiers et dossiers à ignorer par Git
+├── README.md               # Documentation du projet
+├── requirements.txt        # Dépendances du projet
+└── run.py                  # Script pour lancer l'API
+```
+
+## Installation & Configuration
 
 1. **Cloner le dépôt**
 
@@ -19,54 +41,20 @@ Ce projet est une application web construite avec **FastAPI** pour le backend et
    cd async_mongo_odm
    ```
 
-2. **lancer le programme**
+2. **Créer un fichier `.env`**
 
-   ```bash
-   # Créé et configure automatiquement un environnement virtuel
-   # avant de lancer le programme
-   python run.py
-   ```
+   Créez un fichier `.env` à la racine du projet et configurez les variables suivant le .env.example :
 
-## Configuration
-
-1. **Créer un fichier `.env`**
-
-   Créez un fichier `.env` à la racine du projet et configurez les variables suivantes :
-
-   ```bash
-   MONGODB_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/
-   DATABASE_NAME=<database>
-   ```
-
-   Adaptez l'URL en fonction de la configuration de votre base de données MongoDB.
+   Adaptez les informations en fonction de la configuration de votre base de données MongoDB Atlas.
 
    - username : Le nom de l'utilisateur Atlas
    - password : Le mot de passe de l'utilisateur Atlas
    - cluster : Le cluster du projet Atlas
    - database : Le nom de la base de données
+   - secret_key : La clé d'encodage
+   - algorithm : L'algorithm pour encoder les password
 
-   Par défaut, le projet ce lance sur le **localhost** sur la base de données **myDatabase** : `mongodb://localhost:27017/myDatabase`
-
-## Structure du Projet
-
-```bash
-async_mongo_odm/
-│
-├── .venv/                  # Environnement virtuel
-├── app/                    # Code source de l'application
-│   ├── main.py             # Point d'entrée de l'application
-│   ├── config.py           # Configuration de l'application
-│   ├── models/             # Modèles Pydantic pour la validation
-│   ├── routers/            # Routes de l'application
-│   ├── schemas/            # Schémas de données (Pydantic)
-│   └── services/           # Services et logique métier
-│
-├── .env                    # Variables d'environnement
-├── .gitignore              # Fichiers et dossiers à ignorer par Git
-├── README.md               # Première de couverture du projet
-├── requirements.txt        # Dépendances du projet
-└── run.py                  # Permet de lancer facilement le serveur
-```
+   Si vous souhaitez lancer en localhost, supprimez les champs username, password et cluster.
 
 ## Utilisation
 
@@ -78,7 +66,7 @@ async_mongo_odm/
    python run.py
    ```
 
-   Cela démarre le serveur de développement FastAPI avec rechargement automatique.
+   Cela configurera l'environnement et démarrera le serveur de développement FastAPI avec rechargement automatique.
 
 2. **Accéder à l'application**
 
