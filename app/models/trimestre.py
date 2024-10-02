@@ -1,5 +1,5 @@
 from beanie import Document, BackLink
-from typing import List
+from typing import TYPE_CHECKING, List
 from datetime import datetime
 from pydantic import Field
 
@@ -7,7 +7,7 @@ from pydantic import Field
 class Trimestre(Document):
     nom: str
     date: datetime
-    notes: List[BackLink["Notes"]] = Field(original_field="trimestre")
+    notes: List[BackLink["Note"]] = Field(original_field="trimestre")
 
     class Settings:
         collection = "trimestres"

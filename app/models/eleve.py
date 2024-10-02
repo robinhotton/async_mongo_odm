@@ -1,7 +1,8 @@
-from beanie import Document, Link
-from typing import Optional
+from beanie import Document, Link, BackLink
+from typing import TYPE_CHECKING, Optional
 from datetime import datetime
 from bson import ObjectId
+from pydantic import Field
 from ..enums import SexeEnum
 
 
@@ -12,6 +13,7 @@ class Eleve(Document):
     date_naissance: datetime
     adresse: Optional[str] = None
     sexe: SexeEnum
+    notes: Optional[BackLink["Note"]] = Field(original_field="eleve")
 
     class Settings:
         collection = "eleves"

@@ -1,13 +1,16 @@
-from beanie import Document, Link, BackLink
-from typing import List, Optional
-from bson import ObjectId
+from beanie import Document, BackLink
+from typing import TYPE_CHECKING, List
 from pydantic import Field
 
 
+# Pour éviter les problèmes d'importation circulaire
+if TYPE_CHECKING:
+    from .note import Notes
+    
+
 class Matiere(Document):
     nom: str
-    professeurs: Optional[List[Link["Professeur"]]] = None
-    notes: List[BackLink["Notes"]] = Field(original_field="matiere")
+    notes: List[BackLink["Note"]] = Field(original_field="matiere")
 
     class Settings:
         collection = "matieres"
@@ -15,7 +18,6 @@ class Matiere(Document):
     class Config:
         json_schema_extra = {
             "example": {
-                "nom": "Mathématiques",
-                "professeurs": [str(ObjectId())],  # Références aux professeurs
+                "nom": "Mathématiques"
             }
         }

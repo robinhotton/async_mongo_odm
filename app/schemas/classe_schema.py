@@ -5,14 +5,14 @@ from typing import Optional
 
 class ClasseBaseSchema(BaseModel):
     nom: str = None
-    prof_id: Optional[str] = Field(None, alias="prof_id")
+    prof: Optional[str] = None
 
     class Config:
         from_attributes = True
         json_schema_extra = {
             "example": {
                 "nom": "CP",
-                "prof_id": str(ObjectId())
+                "prof": str(ObjectId())
             }
         }
         
@@ -33,6 +33,6 @@ class ClasseSchema(ClasseBaseSchema):
             "example": {
                 "_id": str(ObjectId()),
                 "nom": "CP",
-                "prof_id": str(ObjectId())
+                "prof": str(ObjectId())
             }
         }

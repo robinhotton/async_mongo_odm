@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
 from typing import List
+from bson import ObjectId
 from ..schemas import ClasseSchema, UpdateClasseSchema, CreateClasseSchema
 from ..services import get_classe, get_classes, create_classe, update_classe, delete_classe
-from bson import ObjectId
 
 
 router = APIRouter(prefix="/classes", tags=["Classes"])

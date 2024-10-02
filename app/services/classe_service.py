@@ -4,26 +4,24 @@ from bson import ObjectId
 from typing import List, Optional
 
 
+async def validate_object_id(classe_id: str) -> bool:
+    return ObjectId.is_valid(classe_id)
+
+
 async def get_classe(classe_id: str) -> Optional[ClasseSchema]:
-    if not ObjectId.is_valid(classe_id):
+    if not await validate_object_id(classe_id):
         return None
     classe: Classe = await Classe.get(ObjectId(classe_id))
-    if classe:
-        return classe
-    return None
+    return classe if classe else None
 
 
 async def get_classes() -> List[ClasseSchema]:
     classes: List[Classe] = await Classe.find_all().to_list()
-    return [
-        ClasseSchema(
-            _id=str(element.id),
-            nom=element.nom,
-            prof_id=element.prof_id if element.prof_id else None
-        )
-        for element in classes
-    ]
-
+    return [ClasseSchema(
+        _id=str(element.id),
+        nom=element.nom,
+        prof=str(element.prof.id) if element.prof else None  # Référence au professeur
+    ) for element in classes]
 
 
 async def create_classe(classe_data: CreateClasseSchema) -> ClasseSchema:

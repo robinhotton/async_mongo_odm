@@ -1,13 +1,12 @@
 from beanie import Document, Link
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 from datetime import datetime
 from bson import ObjectId
 
 
-class Notes(Document):
+class Note(Document):
     date_saisie: datetime
     eleve: Optional[Link["Eleve"]] = None
-    classe: Optional[Link["Classe"]] = None
     matiere: Optional[Link["Matiere"]] = None
     prof: Optional[Link["Professeur"]] = None
     trimestre: Optional[Link["Trimestre"]] = None
@@ -23,7 +22,6 @@ class Notes(Document):
             "example": {
                 "date_saisie": "2019-10-15T08:07:03",
                 "eleve": str(ObjectId()),
-                "classe": str(ObjectId()),
                 "matiere": str(ObjectId()),
                 "prof": str(ObjectId()),
                 "trimestre": str(ObjectId()),

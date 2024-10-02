@@ -1,5 +1,5 @@
 from beanie import Document, Link, BackLink
-from typing import Optional, List
+from typing import TYPE_CHECKING, Optional, List
 from bson import ObjectId
 from pydantic import Field
 
@@ -16,6 +16,6 @@ class Classe(Document):
         json_schema_extra = {
             "example": {
                 "nom": "CP",
-                "prof": str(ObjectId())  # Référence au professeur
+                "prof": str(ObjectId())
             }
         }
