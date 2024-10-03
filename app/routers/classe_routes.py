@@ -48,6 +48,6 @@ async def update_classe_endpoint(classe_id: str, classe_data: ClasseUpdate) -> C
 @router.delete("/{classe_id}", response_model=dict, status_code=status.HTTP_200_OK)
 async def delete_classe_endpoint(classe_id: str) -> dict:
     classe_id = _verify_object_id(classe_id)
-    deleted_classe = await delete_classe(classe_id)
+    deleted_classe: bool = await delete_classe(classe_id)
     _response_not_none(deleted_classe, classe_id)
-    return {"detail": "Class deleted"}
+    return {"message": f"Class with id '{classe_id}' deleted successfully"}
