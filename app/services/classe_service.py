@@ -12,7 +12,7 @@ def _create_response(classe: Classe) -> ClasseResponse:
     return reponse
 
 
-async def get_classes(skip, limit) -> List[ClasseResponse]:
+async def get_classes(skip: int, limit: int) -> List[ClasseResponse]:
     classes: List[Classe] = await Classe.find_all().skip(skip).limit(limit).to_list()
     return [_create_response(classe) for classe in classes]
 
@@ -33,7 +33,8 @@ async def update_classe(classe_id: ObjectId, classe_data: ClasseUpdate) -> Optio
     if classe:
         update_data: ClasseUpdate = classe_data.model_dump(exclude_unset=True)
         await classe.set(update_data)
-        return _create_response(classe) if classe else None
+        updated_classe = await Classe.get(classe_id)
+        return _create_response(updated_classe) if classe else None
     return None
 
 
