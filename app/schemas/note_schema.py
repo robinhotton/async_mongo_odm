@@ -1,50 +1,60 @@
 from bson import ObjectId
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
+from .py_object_id import PyObjectId
 
-class NoteBaseSchema(BaseModel):
+
+class NoteBase(BaseModel):
     date_saisie: datetime
-    id_eleve: str
-    id_classe: str
-    id_matiere: str
-    id_prof: str
-    id_trimestre: str
+    eleve: Optional[str] = Field(default=None, alias="eleve_id")
+    matiere: Optional[str] = Field(default=None, alias="matiere_id")
+    prof: Optional[str] = Field(default=None, alias="prof_id")
+    trimestre: Optional[str] = Field(default=None, alias="trimestre_id")
     note: int
     avis: str
     avancement: float
 
     class Config:
         from_attributes = True
-        populate_by_name = True
+        json_schema_extra = {
+            "example": {
+                "date_saisie": "2019-10-15T08:07:03",
+                "eleve_id": str(ObjectId()),
+                "matiere_id": str(ObjectId()),
+                "prof_id": str(ObjectId()),
+                "trimestre_id": str(ObjectId()),
+                "note": 12,
+                "avis": "Travail à approfondir",
+                "avancement": 0.0
+            }
+        }
 
-class CreateNoteSchema(NoteBaseSchema):
+
+class NoteCreate(NoteBase):
     pass
 
-class UpdateNoteSchema(BaseModel):
+
+class NoteUpdate(BaseModel):
     date_saisie: Optional[datetime] = None
-    id_eleve: Optional[str] = None
-    id_classe: Optional[str] = None
-    id_matiere: Optional[str] = None
-    id_prof: Optional[str] = None
-    id_trimestre: Optional[str] = None
     note: Optional[int] = None
     avis: Optional[str] = None
     avancement: Optional[float] = None
 
-class NoteSchema(NoteBaseSchema):
-    _id: str
+
+class NoteResponse(NoteBase):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
 
     class Config:
+        arbitrary_types_allowed=True,
         json_schema_extra = {
             "example": {
                 "_id": str(ObjectId()),
                 "date_saisie": "2019-10-15T08:07:03",
-                "id_eleve": str(ObjectId()),
-                "id_classe": str(ObjectId()),
-                "id_matiere": str(ObjectId()),
-                "id_prof": str(ObjectId()),
-                "id_trimestre": str(ObjectId()),
+                "eleve_id": str(ObjectId()),
+                "matiere_id": str(ObjectId()),
+                "prof_id": str(ObjectId()),
+                "trimestre_id": str(ObjectId()),
                 "note": 12,
                 "avis": "Travail à approfondir",
                 "avancement": 0.0

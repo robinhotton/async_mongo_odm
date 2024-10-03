@@ -1,8 +1,8 @@
 from .classe_schema import ClasseResponse, ClasseCreate, ClasseUpdate
-from .eleve_schema import EleveSchema, UpdateEleveSchema
-from .matiere_schema import MatiereSchema, UpdateMatiereSchema
-from .note_schema import NoteSchema, UpdateNoteSchema
-from .professeur_schema import ProfesseurSchema, UpdateProfesseurSchema
-from .trimestre_schema import TrimestreSchema, UpdateTrimestreSchema
-from .user_schema import UserUpdateSchema, UserCreateSchema, UserResponseSchema, TokenResponseSchema
+from .eleve_schema import EleveResponse, EleveCreate, EleveUpdate
+from .matiere_schema import MatiereResponse, MatiereCreate, MatiereUpdate
+from .note_schema import NoteResponse, NoteCreate, NoteUpdate
+from .professeur_schema import ProfesseurResponse, ProfesseurCreate, ProfesseurUpdate
+from .trimestre_schema import TrimestreResponse, TrimestreCreate, TrimestreUpdate
+from .user_schema import UserResponse, UserCreate, UserUpdate, TokenResponse
 from .py_object_id import PyObjectId

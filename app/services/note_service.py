@@ -1,29 +1,41 @@
-from app.models.note import Note
-from app.schemas.note_schema import NoteSchema, UpdateNoteSchema
 from typing import List, Optional
+from bson import ObjectId
+from ..models import Note
+from ..schemas import NoteResponse, NoteCreate, NoteUpdate
 
-async def get_note(notes_id: int) -> Optional[Note]:
-    return await Note.get(notes_id)
 
 async def get_notes() -> List[Note]:
-    return await Note.find_all().to_list()
+    notes: List[Note] = await Note.find_all().to_list()
+    response: List[NoteResponse] = [NoteResponse(_id=str(note.id), **note.model_dump()) for note in notes]
+    return response
 
-async def create_note(notes_data: NoteSchema) -> Note:
-    notes = Note(**notes_data.dict())
-    await notes.insert()
-    return notes
 
-async def update_note(notes_id: int, notes_data: UpdateNoteSchema) -> Optional[Note]:
-    notes = await Note.get(notes_id)
-    if notes:
-        update_data = notes_data.dict(exclude_unset=True)
-        await notes.set(update_data)
-        return notes
+async def get_note(note_id: ObjectId) -> Optional[NoteResponse]:
+    note: Note = await Note.get(note_id)
+    response: NoteResponse = NoteResponse(_id=str(note.id), **note.model_dump())
+    return response
+
+
+async def create_note(note_data: NoteCreate) -> NoteResponse:
+    note: Note = Note(**note_data.model_dump())
+    await note.insert()
+    response: NoteResponse = NoteResponse(_id=str(note.id), **note_data.model_dump())
+    return response
+
+
+async def update_note(note_id: ObjectId, note_data: NoteUpdate) -> Optional[NoteResponse]:
+    note: Note = await Note.get(note_id)
+    if note:
+        update_data: NoteUpdate = note_data.model_dump(exclude_unset=True)
+        await note.set(update_data)
+        response: NoteResponse = NoteResponse(_id=str(note.id), **note.model_dump())
+        return response
     return None
 
-async def delete_note(notes_id: int) -> bool:
-    notes = await Note.get(notes_id)
-    if notes:
-        await notes.delete()
+
+async def delete_note(note_id: ObjectId) -> bool:
+    note: Note = await Note.get(note_id)
+    if note:
+        await note.delete()
         return True
     return False

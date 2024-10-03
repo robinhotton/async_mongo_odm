@@ -1,28 +1,40 @@
-from app.models.professeur import Professeur
-from app.schemas.professeur_schema import ProfesseurSchema, UpdateProfesseurSchema
 from typing import List, Optional
+from bson import ObjectId
+from ..models import Professeur
+from ..schemas import ProfesseurResponse, ProfesseurCreate, ProfesseurUpdate
 
-async def get_professeur(professeur_id: int) -> Optional[Professeur]:
-    return await Professeur.get(professeur_id)
 
-async def get_professeurs() -> List[Professeur]:
-    return await Professeur.find_all().to_list()
+async def get_professeurs() -> List[ProfesseurResponse]:
+    professeurs: List[Professeur] = await Professeur.find_all().to_list()
+    response: List[ProfesseurResponse] = [ProfesseurResponse(_id=str(professeur.id), **professeur.model_dump()) for professeur in professeurs]
+    return response
 
-async def create_professeur(professeur_data: ProfesseurSchema) -> Professeur:
-    professeur = Professeur(**professeur_data.dict())
+
+async def get_professeur(professeur_id: ObjectId) -> Optional[ProfesseurResponse]:
+    professeur: Professeur = await Professeur.get(professeur_id)
+    response: ProfesseurResponse = ProfesseurResponse(_id=str(professeur.id), **professeur.model_dump())
+    return response
+
+
+async def create_professeur(professeur_data: ProfesseurCreate) -> ProfesseurResponse:
+    professeur: Professeur = Professeur(**professeur_data.model_dump())
     await professeur.insert()
-    return professeur
+    response: ProfesseurResponse = ProfesseurResponse(_id=str(professeur.id), **professeur_data.model_dump())
+    return response
 
-async def update_professeur(professeur_id: int, professeur_data: UpdateProfesseurSchema) -> Optional[Professeur]:
-    professeur = await Professeur.get(professeur_id)
+
+async def update_professeur(professeur_id: ObjectId, professeur_data: ProfesseurUpdate) -> Optional[ProfesseurResponse]:
+    professeur: Professeur = await Professeur.get(professeur_id)
     if professeur:
-        update_data = professeur_data.dict(exclude_unset=True)
+        update_data: ProfesseurUpdate = professeur_data.model_dump(exclude_unset=True)
         await professeur.set(update_data)
-        return professeur
+        response: ProfesseurResponse = ProfesseurResponse(_id=str(professeur.id), **professeur.model_dump())
+        return response
     return None
 
-async def delete_professeur(professeur_id: int) -> bool:
-    professeur = await Professeur.get(professeur_id)
+
+async def delete_professeur(professeur_id: ObjectId) -> bool:
+    professeur: Professeur = await Professeur.get(professeur_id)
     if professeur:
         await professeur.delete()
         return True

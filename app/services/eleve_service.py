@@ -1,38 +1,40 @@
-from ..models import Eleve
-from ..schemas import EleveSchema, UpdateEleveSchema
 from typing import List, Optional
 from bson import ObjectId
+from ..models import Eleve
+from ..schemas import EleveResponse, EleveCreate, EleveUpdate
 
 
-async def get_eleve(eleve_id: str) -> Optional[EleveSchema]:
-    if not ObjectId.is_valid(eleve_id):
-        return None
-    eleve = await Eleve.get(ObjectId(eleve_id))
-    return EleveSchema.model_validate(eleve) if eleve else None
-
-
-async def get_eleves() -> List[EleveSchema]:
+async def get_eleves() -> List[EleveResponse]:
     eleves: List[Eleve] = await Eleve.find_all().to_list()
-    return [EleveSchema.model_validate(eleve) for eleve in eleves]
+    response: List[EleveResponse] = [EleveResponse(_id=str(eleve.id), **eleve.model_dump()) for eleve in eleves]
+    return response
 
 
-async def create_eleve(eleve_data: EleveSchema) -> EleveSchema:
-    eleve = Eleve(**eleve_data.model_dump())
+async def get_eleve(eleve_id: ObjectId) -> Optional[EleveResponse]:
+    eleve: Eleve = await Eleve.get(eleve_id)
+    response: EleveResponse = EleveResponse(_id=str(eleve.id), **eleve.model_dump())
+    return response
+
+
+async def create_eleve(eleve_data: EleveCreate) -> EleveResponse:
+    eleve: Eleve = Eleve(**eleve_data.model_dump())
     await eleve.insert()
-    return EleveSchema.model_validate(eleve)
+    response: EleveResponse = EleveResponse(_id=str(eleve.id), **eleve_data.model_dump())
+    return response
 
 
-async def update_eleve(eleve_id: str, eleve_data: UpdateEleveSchema) -> Optional[EleveSchema]:
-    eleve = await get_eleve(eleve_id)
+async def update_eleve(eleve_id: ObjectId, eleve_data: EleveUpdate) -> Optional[EleveResponse]:
+    eleve: Eleve = await get_eleve(eleve_id)
     if eleve:
-        update_data = eleve_data.model_dump(exclude_unset=True)
+        update_data: EleveUpdate = eleve_data.model_dump(exclude_unset=True)
         await eleve.set(update_data)
-        return EleveSchema.model_validate(eleve)
+        response: EleveResponse = EleveResponse(_id=str(eleve.id), **eleve.model_dump())
+        return response
     return None
 
 
-async def delete_eleve(eleve_id: str) -> bool:
-    eleve = await get_eleve(eleve_id)
+async def delete_eleve(eleve_id: ObjectId) -> bool:
+    eleve: Eleve = await get_eleve(eleve_id)
     if eleve:
         await eleve.delete()
         return True

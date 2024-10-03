@@ -1,10 +1,11 @@
 from bson import ObjectId
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional
 from ..enums import RoleEnum
+from .py_object_id import PyObjectId
 
 
-class UserBaseSchema(BaseModel):
+class UserBase(BaseModel):
     username: str
     email: EmailStr
     roles: List[RoleEnum] = [RoleEnum.ELEVE]
@@ -20,7 +21,7 @@ class UserBaseSchema(BaseModel):
         }
 
 
-class UserCreateSchema(UserBaseSchema):
+class UserCreate(UserBase):
     password: str
     
     class Config:
@@ -34,17 +35,18 @@ class UserCreateSchema(UserBaseSchema):
         }
 
 
-class UserUpdateSchema(UserBaseSchema):
+class UserUpdate(UserBase):
     username: Optional[str] = None
     password: Optional[str] = None
     email: Optional[EmailStr] = None
     roles: Optional[List[RoleEnum]] = None
 
-    
-class UserResponseSchema(UserBaseSchema):
-    _id: str
+
+class UserResponse(UserBase):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
 
     class Config:
+        arbitrary_types_allowed=True,
         json_schema_extra = {
             "example": {
                 "_id": str(ObjectId()),
@@ -53,8 +55,8 @@ class UserResponseSchema(UserBaseSchema):
                 "roles": [RoleEnum.ADMIN]
             }
         }
-    
-    
-class TokenResponseSchema(BaseModel):
+
+
+class TokenResponse(BaseModel):
     access_token: str
     token_type: str

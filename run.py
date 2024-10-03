@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def get_venv_scripts(script_name):
+def _get_venv_scripts(script_name):
     """Renvoie le chemin du répertoire 'Scripts' ou 'bin' de l'environnement virtuel, en fonction du système d'exploitation."""
     if os.name == 'nt':
         # Activation sous Windows
@@ -29,14 +29,14 @@ def create_venv():
 
 def activate_venv():
     """Active l'environnement virtuel '.venv'."""
-    venv_activate = get_venv_scripts("activate")
+    venv_activate = _get_venv_scripts("activate")
     os.system(venv_activate)
 
 
 def update_pip():
     """Met à jour pip dans l'environnement virtuel."""
     try:
-        venv_python = get_venv_scripts("python")
+        venv_python = _get_venv_scripts("python")
         subprocess.run([venv_python, "-m", "pip", "install", "--upgrade", "pip"], check=True)
         print("pip a été mis à jour avec succès.")
     except subprocess.CalledProcessError as e:
@@ -47,7 +47,7 @@ def update_pip():
 def install_requirements():
     """Installe les dépendances du projet dans le '.venv' à partir du fichier 'requirements.txt'."""
     try:
-        venv_pip = get_venv_scripts("pip")
+        venv_pip = _get_venv_scripts("pip")
         subprocess.run([venv_pip, "install", "-r", "requirements.txt"], check=True)
         print("Les dépendances ont été installées avec succès.")
     except subprocess.CalledProcessError as e:
@@ -57,7 +57,7 @@ def install_requirements():
 
 def run_uvicorn(host="127.0.0.1", port=8000, log_level="info"):
     """Lance l'application Uvicorn avec les paramètres spécifiés."""
-    venv_uvicorn = get_venv_scripts("uvicorn")
+    venv_uvicorn = _get_venv_scripts("uvicorn")
     try:
         subprocess.run([
             venv_uvicorn, 
