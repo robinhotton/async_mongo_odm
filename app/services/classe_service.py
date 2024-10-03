@@ -6,21 +6,11 @@ from ..schemas import ClasseResponse, ClasseCreate, ClasseUpdate
 
 async def get_classes(skip, limit) -> List[ClasseResponse]:
     classes: List[Classe] = await Classe.find_all().skip(skip).limit(limit).to_list()
-    response: List[ClasseResponse] = []
-
-    for classe in classes:
-        # Récupérer le professeur (Link) avec fetch() pour obtenir l'objet réel
-        prof = classe.prof.to_dict() if classe.prof else None
-        prof_id = str(prof["id"]) if prof else None
-
-        # Construire la réponse avec les IDs récupérés
-        classe_response = ClasseResponse(
-            _id=str(classe.id),
-            nom=classe.nom,
-            prof=prof_id
-        )
-        response.append(classe_response)
-        
+    response: List[ClasseResponse] = [ClasseResponse(
+        _id=str(classe.id), 
+        nom=classe.nom, 
+        prof=str(classe.prof.to_dict()["id"]) if classe.prof else None) 
+        for classe in classes]
     return response
 
 
