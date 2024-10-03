@@ -13,7 +13,7 @@ class Eleve(Document):
     date_naissance: datetime
     adresse: Optional[str] = None
     sexe: SexeEnum
-    notes: Optional[BackLink["Note"]] = Field(original_field="eleve")
+    notes: BackLink["Note"] = Field(original_field="eleve")
 
     class Settings:
         collection = "eleves"

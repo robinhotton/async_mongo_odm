@@ -7,7 +7,7 @@ from pydantic import Field
 class Trimestre(Document):
     nom: str
     date: datetime
-    notes: List[BackLink["Note"]] = Field(original_field="trimestre")
+    notes: BackLink["Note"] = Field(original_field="trimestre")
 
     class Settings:
         collection = "trimestres"

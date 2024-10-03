@@ -5,7 +5,7 @@ from pydantic import Field
 
 class Matiere(Document):
     nom: str
-    notes: List[BackLink["Note"]] = Field(original_field="matiere")
+    notes: BackLink["Note"] = Field(original_field="matiere")
 
     class Settings:
         collection = "matieres"

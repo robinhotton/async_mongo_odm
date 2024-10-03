@@ -12,7 +12,7 @@ class Professeur(Document):
     adresse: Optional[str] = None
     sexe: SexeEnum
     classe: BackLink["Classe"] = Field(original_field="prof")
-    notes: List[BackLink["Note"]] = Field(original_field="prof")
+    notes: BackLink["Note"] = Field(original_field="prof")
 
     class Settings:
         collection = "professeurs"

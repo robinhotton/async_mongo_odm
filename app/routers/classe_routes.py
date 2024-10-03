@@ -9,8 +9,8 @@ router = APIRouter(prefix="/classes", tags=["Classes"])
 
 
 @router.get("/", response_model=List[ClasseResponse], status_code=status.HTTP_200_OK)
-async def read_classes() -> List[ClasseResponse]:
-    return await get_classes()
+async def read_classes(skip=None, limit=None) -> List[ClasseResponse]:
+    return await get_classes(skip, limit)
 
 
 @router.get("/{classe_id}", response_model=ClasseResponse, status_code=status.HTTP_200_OK)
@@ -34,7 +34,7 @@ async def update_classe_endpoint(classe_id: str, classe_data: ClasseUpdate) -> C
     if not ObjectId.is_valid(classe_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid ObjectId format")
     
-    updated_classe = await update_classe(ObjectId(classe_id), classe_data)
+    updated_classe: ClasseUpdate = await update_classe(ObjectId(classe_id), classe_data)
     if not updated_classe:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No class with id '{classe_id}'")
     return updated_classe

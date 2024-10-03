@@ -7,7 +7,7 @@ from pydantic import Field
 class Classe(Document):
     nom: str
     prof: Optional[Link["Professeur"]] = None
-    eleves: List[BackLink["Eleve"]] = Field(original_field="classe")
+    eleves: BackLink["Eleve"] = Field(original_field="classe")
 
     class Settings:
         collection = "classes"
