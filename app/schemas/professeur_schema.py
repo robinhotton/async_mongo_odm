@@ -30,7 +30,7 @@ class ProfesseurCreate(ProfesseurBase):
     pass
 
 
-class ProfesseurUpdate(BaseModel):
+class ProfesseurUpdate(ProfesseurBase):
     nom: Optional[str] = None
     date_naissance: Optional[datetime] = None
     sexe: Optional[SexeEnum] = None
