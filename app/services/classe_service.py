@@ -14,7 +14,8 @@ def _create_response(classe: Classe) -> ClasseResponse:
 
 async def get_classes(skip: int, limit: int) -> List[ClasseResponse]:
     classes: List[Classe] = await Classe.find_all().skip(skip).limit(limit).to_list()
-    return [_create_response(classe) for classe in classes]
+    classes_response: List[ClasseResponse] = [_create_response(classe) for classe in classes]
+    return classes_response
 
 
 async def get_classe(classe_id: ObjectId) -> Optional[ClasseResponse]:

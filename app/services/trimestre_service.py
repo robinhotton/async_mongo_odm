@@ -4,9 +4,17 @@ from ..models import Trimestre
 from ..schemas import TrimestreResponse, TrimestreCreate, TrimestreUpdate
 
 
-async def get_trimestres() -> List[Trimestre]:
-    trimestres: List[Trimestre] = await Trimestre.find_all().to_list()
-    response: List[TrimestreResponse] = [TrimestreResponse(_id=str(trimestre.id), **trimestre.model_dump()) for trimestre in trimestres]
+def _create_response(trimestre: Trimestre) -> TrimestreResponse:
+    reponse: TrimestreResponse = TrimestreResponse(
+        _id=str(trimestre.id),
+        nom=trimestre.nom,
+        date=trimestre.date)
+    return reponse
+
+
+async def get_trimestres(skip: int, limit: int) -> List[Trimestre]:
+    trimestres: List[Trimestre] = await Trimestre.find_all().skip(skip).limit(limit).to_list()
+    response: List[TrimestreResponse] = [_create_response(trimestre) for trimestre in trimestres]
     return response
 
 

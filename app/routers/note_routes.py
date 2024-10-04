@@ -1,50 +1,46 @@
-from bson import ObjectId
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, status
 from typing import List
+from bson import ObjectId
 from ..schemas import NoteResponse, NoteCreate, NoteUpdate
 from ..services import get_notes, get_note, create_note, update_note, delete_note
+from .routes_utils import _verify_object_id, _response_not_none
 
 
-router = APIRouter(prefix="/notes", tags=["Notes"])
+router_name = "notes"
+router = APIRouter(prefix=f"/{router_name}", tags=[router_name.capitalize()])
 
 
 @router.get("/", response_model=List[NoteResponse], status_code=status.HTTP_200_OK)
-async def read_notes() -> List[NoteResponse]:
-    return await get_notes()
+async def read_notes(skip: int = 0, limit: int = 100) -> List[NoteResponse]:
+    notes: List[NoteResponse] = await get_notes(skip, limit)
+    return notes
 
 
 @router.get("/{note_id}", response_model=NoteResponse, status_code=status.HTTP_200_OK)
 async def read_note(note_id: str) -> NoteResponse:
-    if not ObjectId.is_valid(note_id):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid ObjectId format")
-    
-    note = await get_note(ObjectId(note_id))
-    if not note:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No note with id '{note_id}'")
+    note_id: ObjectId = _verify_object_id(note_id)
+    note: NoteResponse = await get_note(note_id)
+    _response_not_none(note, note_id, router_name)
     return note
 
 
 @router.post("/", response_model=NoteResponse, status_code=status.HTTP_201_CREATED)
 async def create_note_endpoint(note_data: NoteCreate) -> NoteResponse:
-    return await create_note(note_data)
+    note: NoteResponse = await create_note(note_data)
+    return note
 
 
 @router.put("/{note_id}", response_model=NoteResponse, status_code=status.HTTP_200_OK)
 async def update_note_endpoint(note_id: str, note_data: NoteUpdate) -> NoteResponse:
-    if not ObjectId.is_valid(note_id):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid ObjectId format")
-    
-    updated_note = await update_note(ObjectId(note_id), note_data)
-    if not updated_note:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No note with id '{note_id}'")
+    note_id: ObjectId = _verify_object_id(note_id)
+    updated_note: NoteResponse = await update_note(note_id, note_data)
+    _response_not_none(updated_note, note_id, router_name)
     return updated_note
 
 
 @router.delete("/{note_id}", response_model=dict, status_code=status.HTTP_200_OK)
 async def delete_note_endpoint(note_id: str) -> dict:
-    if not ObjectId.is_valid(note_id):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid ObjectId format")
-    
-    if not await delete_note(ObjectId(note_id)):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No note with id '{note_id}'")
-    return {"detail": "Note deleted"}
+    note_id: ObjectId = _verify_object_id(note_id)
+    deleted_note: bool = await delete_note(note_id)
+    _response_not_none(deleted_note, note_id, router_name)
+    return {"message": f"Document with id '{note_id}' deleted successfully"}
